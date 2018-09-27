@@ -1,4 +1,4 @@
 package sample;
 
-public class Cueball {
+public class Cueball extends Ball {
 }
