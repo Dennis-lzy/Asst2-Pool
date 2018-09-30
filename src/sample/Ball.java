@@ -5,7 +5,7 @@ import javafx.scene.shape.Circle;
 
 public abstract class Ball extends Circle {
 
-    private String color;
+    private Color color;
     private double posX;
     private double posY;
     private double velX;

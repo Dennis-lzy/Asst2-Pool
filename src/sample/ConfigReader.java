@@ -76,19 +76,19 @@ public class ConfigReader {
      *
      * @param args First argument is the path to the config file
      */
-    public static void main(String[] args) {
-        // if a command line argument is provided, that should be used as the path
-        // if not, you can hard-code a default. e.g. "config.json"
-        // this makes it easier to test your program with different config files
-        ConfigReader cf = new ConfigReader();
-        String configPath;
-        if (args.length > 0) {
-            configPath = args[0];
-        } else {
-            configPath = "config.json";
-        }
-        // parse the file:
-        cf.parse(configPath);
-    }
+//    public static void main(String[] args) {
+//        // if a command line argument is provided, that should be used as the path
+//        // if not, you can hard-code a default. e.g. "config.json"
+//        // this makes it easier to test your program with different config files
+//        ConfigReader cf = new ConfigReader();
+//        String configPath;
+//        if (args.length > 0) {
+//            configPath = args[0];
+//        } else {
+//            configPath = "config.json";
+//        }
+//        // parse the file:
+//        cf.parse(configPath);
+//    }
 
 }
