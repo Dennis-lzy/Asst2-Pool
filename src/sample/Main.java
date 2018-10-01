@@ -10,6 +10,7 @@ import javafx.geometry.Bounds;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -24,18 +25,31 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
         Group root = new Group();
+
         primaryStage.setTitle("Hello World");
 
         ConfigReader cf = new ConfigReader();
         cf.parse("config.json");
+
+        Table table = cf.table;
+        double w = table.getWidth() + 200;
+        double h = table.getHeight() + 200;
+        table.setX(100);
+        table.setY(100);
+
+        root.getChildren().add(table);
+
         ArrayList balls = cf.balls;
 
         for(int i = 0; i<balls.size(); i++ ){
             Ball newBall = (Ball) balls.get(i);
             root.getChildren().add(newBall);
         }
+
+
+
         primaryStage.setResizable(false);
-        primaryStage.setScene(new Scene(root, 800, 400, Color.GREEN));
+        primaryStage.setScene(new Scene(root, w, h, Color.GREEN));
 
         Timeline timeline = new Timeline(new KeyFrame(Duration.millis(10),
                 new EventHandler<ActionEvent>() {

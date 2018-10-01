@@ -15,6 +15,7 @@ import org.json.simple.parser.ParseException;
 public class ConfigReader {
 
     public ArrayList<Ball> balls = new ArrayList<>();
+    public Table table = new Table();
 
 
     public void parse(String path) {
@@ -30,7 +31,7 @@ public class ConfigReader {
             JSONObject jsonTable = (JSONObject) jsonObject.get("Table");
 
             // reading a value from the table section
-            String tableColour = (String) jsonTable.get("colour");
+            Color tableColour = (Color) Paint.valueOf((String) jsonTable.get("colour"));
 
             // reading a coordinate from the nested section within the table
             // note that the table x and y are of type Long (i.e. they are integers)
@@ -40,6 +41,14 @@ public class ConfigReader {
             // getting the friction level.
             // This is a double which should affect the rate at which the balls slow down
             Double tableFriction = (Double) jsonTable.get("friction");
+
+            table.setColor(tableColour);
+            table.setWidth(tableX);
+            table.setHeight(tableY);
+            table.setFriction(tableFriction);
+
+
+            //---------------------------------------
 
 
             // reading the "Balls" section:
