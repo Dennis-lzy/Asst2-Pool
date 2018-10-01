@@ -1,5 +1,7 @@
 package sample;
 
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
@@ -15,9 +17,6 @@ public class Table extends Rectangle {
         this.friction = getFriction();
         this.height = getHeight();
         this.width = getWidth();
-        this.setX(this.width/2);
-        this.setY(this.height/2);
-
     }
 
     public Color getColor() {

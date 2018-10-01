@@ -10,6 +10,8 @@ import javafx.geometry.Bounds;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -32,12 +34,26 @@ public class Main extends Application {
         cf.parse("config.json");
 
         Table table = cf.table;
-        double w = table.getWidth() + 200;
-        double h = table.getHeight() + 200;
-        table.setX(100);
-        table.setY(100);
+        //border offset of table image
+        double borderW = 0.056*table.getWidth();
+        double borderH = 0.105*table.getHeight();
 
-        root.getChildren().add(table);
+        //window size offset based on table size
+        double w = table.getWidth() + 200 + 2*borderW;
+        double h = table.getHeight() + 200 + 2*borderH;
+
+        //sets table position
+        table.setX(100+borderW);
+        table.setY(100+borderH);
+
+        // table image
+        ImageView tableI = new ImageView(new Image(getClass().getResourceAsStream("/table.png")));
+        tableI.setX(100);
+        tableI.setY(100);
+        tableI.setFitWidth(table.getWidth()+ (2*borderW)); //adjust size to accommodate for borders
+        tableI.setFitHeight(table.getHeight()+(2*borderH));
+
+        root.getChildren().addAll(tableI, table);
 
         ArrayList balls = cf.balls;
 
@@ -49,7 +65,7 @@ public class Main extends Application {
 
 
         primaryStage.setResizable(false);
-        primaryStage.setScene(new Scene(root, w, h, Color.GREEN));
+        primaryStage.setScene(new Scene(root, w, h));
 
         Timeline timeline = new Timeline(new KeyFrame(Duration.millis(10),
                 new EventHandler<ActionEvent>() {
