@@ -28,7 +28,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception{
         Group root = new Group();
 
-        primaryStage.setTitle("Hello World");
+        primaryStage.setTitle("Pool Game");
 
         ConfigReader cf = new ConfigReader();
         cf.parse("config.json");
@@ -39,21 +39,23 @@ public class Main extends Application {
         double borderH = 0.105*table.getHeight();
 
         //window size offset based on table size
-        double w = table.getWidth() + 200 + 2*borderW;
-        double h = table.getHeight() + 200 + 2*borderH;
+        double w = table.getWidth()+2*borderW; //+ 200 + 2*borderW;
+        double h = table.getHeight()+2*borderH; //+ 200 + 2*borderH;
 
         //sets table position
-        table.setX(100+borderW);
-        table.setY(100+borderH);
+        table.setX(borderW);
+        table.setY(borderH);
 
         // table image
         ImageView tableI = new ImageView(new Image(getClass().getResourceAsStream("/table.png")));
-        tableI.setX(100);
-        tableI.setY(100);
+        tableI.setX(0);
+        tableI.setY(0);
         tableI.setFitWidth(table.getWidth()+ (2*borderW)); //adjust size to accommodate for borders
         tableI.setFitHeight(table.getHeight()+(2*borderH));
 
         root.getChildren().addAll(tableI, table);
+
+        //Adds all balls to group
 
         ArrayList balls = cf.balls;
 
@@ -80,21 +82,23 @@ public class Main extends Application {
                             double dx = b.getVelX();
                             double dy = b.getVelY();
 
+                            CollisionHandler ch = new CollisionHandler();
 
-                            ((Ball) ball).setPosX(((Ball) ball).getPosX() + dx);
-                            ((Ball) ball).setPosY( ((Ball) ball).getPosY() + dy);
-
-                            Bounds bounds = root.getBoundsInLocal();
-
-
-//Bounces off the ball
-                            if(( ((Ball) ball).getPosX() >= (bounds.getMaxY() -  10))){
-
-                                dy = -dy;
-
-
-
+                            if(ch.checkWallCollisionX(b, table)){
+                                dx *= -1;
                             }
+
+                            if(ch.checkWallCollisionY(b, table)){
+                                dy*=-1;
+                            }
+
+                            dx -= 0.1*table.getFriction();
+                            dy -= 0.1*table.getFriction();
+                            b.setPosX(b.getPosX() + dx);
+                            b.setPosY(b.getPosY() + dy);
+
+
+
 
                         }
                     }}));

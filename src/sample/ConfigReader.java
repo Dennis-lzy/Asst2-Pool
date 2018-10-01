@@ -78,6 +78,19 @@ public class ConfigReader {
                 Ball ball = new Ball(posX, posY, 10, ballColour);
 
                 ball.setColor(ballColour);
+
+                if(posX>table.left){
+                    posX = table.left - 11;
+                }
+                if(posX<table.right){
+                    posX = table.right+11;
+                }
+                if(posY>table.bottom){
+                    posY = table.bottom-11;
+                }
+                if(posY<table.top){
+                    posY = table.top+11;
+                }
                 ball.setPosX(posX);
                 ball.setPosY(posY);
                 ball.setVelX(velX);

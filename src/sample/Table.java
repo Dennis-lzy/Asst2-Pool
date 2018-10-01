@@ -6,7 +6,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 
-public class TableArea extends Rectangle {
+public class Table extends Rectangle {
     private Color color;
     private double friction;
     private double width;
@@ -19,7 +19,7 @@ public class TableArea extends Rectangle {
     public double left;
 
 
-    public TableArea() {
+    public Table() {
         this.color = getColor();
         this.friction = getFriction();
         this.height = getHeight();
