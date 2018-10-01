@@ -7,66 +7,71 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Bounds;
+import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
 
+import java.util.ArrayList;
+
 public class Main extends Application {
+
+
 
     @Override
     public void start(Stage primaryStage) throws Exception{
+        Group root = new Group();
         primaryStage.setTitle("Hello World");
-        StackPane root = new StackPane();
 
-        Canvas canvas = new Canvas(800, 400);
-        GraphicsContext gc = canvas.getGraphicsContext2D();
-        gc.strokeText("Hello world", 400,400);
+        ConfigReader cf = new ConfigReader();
+        cf.parse("config.json");
+        ArrayList balls = cf.balls;
 
-        root.getChildren().add(canvas);
+        for(int i = 0; i<balls.size(); i++ ){
+            Ball newBall = (Ball) balls.get(i);
+            root.getChildren().add(newBall);
+        }
+        primaryStage.setResizable(false);
+        primaryStage.setScene(new Scene(root, 800, 400, Color.GREEN));
 
-        Scene scene = new Scene(root,800, 400);
-        scene.setFill(Color.GREEN);
-        BallSetter bs = new BallSetter();
-        Circle ball = bs.createCueBall();
-        root.getChildren().add(ball);
         Timeline timeline = new Timeline(new KeyFrame(Duration.millis(10),
                 new EventHandler<ActionEvent>() {
 
-                    double dx =3; //Step on x or velocity
-                    double dy = 4; //Step on y
+                    double dx; //Step on x or velocity
+                    double dy; //Step on y
 
                     @Override
                     public void handle(ActionEvent t) {
-                        //move the ball
-                        ball.setLayoutX(ball.getLayoutX() + dx);
-                        ball.setLayoutY( ball.getLayoutY() + dy);
-
-                        Bounds bounds = canvas.getBoundsInLocal();
-
+                        for(Object ball: balls){
+                            Ball b = (Ball)ball;
+                            double dx = b.getVelX();
+                            double dy = b.getVelY();
 
 
-                        if(( ball.getLayoutY() >= (bounds.getMaxY() -  ball.getRadius()))){
+                            ((Ball) ball).setPosX(((Ball) ball).getPosX() + dx);
+                            ((Ball) ball).setPosY( ((Ball) ball).getPosY() + dy);
 
-                            dy = -dy;
+                            Bounds bounds = root.getBoundsInLocal();
+
+
+//Bounces off the ball
+                            if(( ((Ball) ball).getPosX() >= (bounds.getMaxY() -  10))){
+
+                                dy = -dy;
+
+
+
+                            }
 
                         }
-
-                    }
-                }));
+                    }}));
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
 
 
-
-
-        primaryStage.setScene(scene);
         primaryStage.show();
 
 
@@ -75,16 +80,5 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         launch(args);
-        BallCreator bc = new BallCreator();
-        BallBuilder cueBallBuilder = new CueBallBuilder();
-        BallBuilder colorBallBuilder = new ColorBallBuilder();
-
-        bc.setBallBuilder(cueBallBuilder);
-        bc.contrsuctBall();
-
-        Ball cueB = bc.getBall();
-
-
     }
-
 }

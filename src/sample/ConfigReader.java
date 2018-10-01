@@ -68,7 +68,7 @@ public class ConfigReader {
 
                 Ball ball = new Ball(posX, posY, 10, ballColour);
 
-                ball.setColour(ballColour);
+                ball.setColor(ballColour);
                 ball.setPosX(posX);
                 ball.setPosY(posY);
                 ball.setVelX(velX);

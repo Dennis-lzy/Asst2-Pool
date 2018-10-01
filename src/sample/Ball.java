@@ -23,11 +23,11 @@ public class Ball extends Circle {
 
     }
 
-    public Color getColour() {
+    public Color getColor() {
         return colour;
     }
 
-    public void setColour(Color colour) {
+    public void setColor(Color colour) {
         this.colour = colour;
 
     }

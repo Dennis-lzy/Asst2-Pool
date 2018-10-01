@@ -8,8 +8,10 @@ public abstract class BallBuilder {
         return ball;
     }
     public void createNewBall() {
-        ball = new Cueball();
-    };
+        ConfigReader cf = new ConfigReader();
+        cf.parse("config.json");
+        ball = new Cueball(ball.getPosX(), ball.getPosY(), 10, ball.getColor());
+    }
     public abstract void buildColor();
     public abstract void buildPosX();
     public abstract void buildPosY();

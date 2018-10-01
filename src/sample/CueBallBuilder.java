@@ -5,7 +5,7 @@ import javafx.scene.paint.*;
 public class CueBallBuilder extends BallBuilder  {
 
     private ConfigReader cf = new ConfigReader();
-    private String configPath = "sample/config.json";
+    private String configPath = "config.json";
 
     public void buildColor() {
         ball.setColor(Color.WHITE);
