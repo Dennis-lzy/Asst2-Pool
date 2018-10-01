@@ -3,13 +3,18 @@ package sample;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 public class ConfigReader {
+
+    public ArrayList<Ball> balls = new ArrayList<>();
 
 
     public void parse(String path) {
@@ -47,8 +52,10 @@ public class ConfigReader {
             for (Object obj : jsonBallsBall) {
                 JSONObject jsonBall = (JSONObject) obj;
 
+
+
                 // the ball colour is a String
-                String ballColour = (String) jsonBall.get("colour");
+                Color ballColour = (Color) Paint.valueOf((String) jsonBall.get("colour"));
 
                 // the ball position, velocity, mass are all doubles
                 Double posX = (Double) ((JSONObject) jsonBall.get("position")).get("x");
@@ -59,8 +66,20 @@ public class ConfigReader {
 
                 Double mass = (Double) jsonBall.get("mass");
 
-                // TODO: delete me, this is just a demonstration:
-                System.out.println("Ball x: " + posX + ", mass: " + mass);
+                Ball ball = new Ball(posX, posY, 10, ballColour);
+
+                ball.setColour(ballColour);
+                ball.setPosX(posX);
+                ball.setPosY(posY);
+                ball.setVelX(velX);
+                ball.setVelY(velY);
+                ball.setMass(mass);
+
+                balls.add(ball);
+
+
+                System.out.println(ball.toString());
+
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();

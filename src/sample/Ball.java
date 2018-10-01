@@ -1,23 +1,35 @@
 package sample;
 
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 
-public abstract class Ball extends Circle {
+public class Ball extends Circle {
 
-    private Color color;
+    private Color colour;
     private double posX;
     private double posY;
     private double velX;
     private double velY;
     private double mass;
 
-    public Color getColor() {
-        return color;
+    public Ball(double centerX, double centerY, double radius, Color colour) {
+        super(centerX, centerY, radius);
+        this.colour = colour;
+        this.setCenterX(centerX);
+        this.setCenterY(centerY);
+        this.setRadius(radius);
+        this.setFill(colour);
+
     }
 
-    public void setColor(Color color) {
-        this.color = color;
+    public Color getColour() {
+        return colour;
+    }
+
+    public void setColour(Color colour) {
+        this.colour = colour;
+
     }
 
     public double getPosX() {
@@ -26,6 +38,7 @@ public abstract class Ball extends Circle {
 
     public void setPosX(double posX) {
         this.posX = posX;
+        this.setCenterX(posX);
     }
 
     public double getPosY() {
@@ -34,6 +47,7 @@ public abstract class Ball extends Circle {
 
     public void setPosY(double posY) {
         this.posY = posY;
+        this.setCenterY(posY);
     }
 
     public double getVelX() {
