@@ -1,0 +1,43 @@
+{
+  "Table": {
+    "name": "table",
+    "colour": "green",
+    "friction": 1.0,
+    "size": {
+      "x": 600,
+      "y": 300
+    }
+  },
+  "Balls": {
+    "ball": [
+      {
+        "name": "cueBall",
+        "colour": "white",
+        "position": {
+          "x": 200.0,
+          "y": 150.0
+        },
+        "velocity": {
+          "x": 1.0,
+          "y": 0.0
+        },
+        "mass": 1.0
+      },
+      {
+        "name": "one",
+        "colour": "red",
+        "position": {
+          "x": 400.0,
+          "y": 150.0
+        },
+        "velocity": {
+          "x": 1.0,
+          "y": 0.0
+        },
+        "mass": 1.0
+      }
+
+
+    ]
+  }
+}

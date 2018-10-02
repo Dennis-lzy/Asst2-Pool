@@ -78,7 +78,7 @@ public class ConfigReader {
                 Double posY = (Double) ((JSONObject) jsonBall.get("position")).get("y");
 
                 Double velX = (Double) ((JSONObject) jsonBall.get("velocity")).get("x");
-                Double velY = (Double) ((JSONObject) jsonBall.get("velocity")).get("x");
+                Double velY = (Double) ((JSONObject) jsonBall.get("velocity")).get("y");
 
                 Double mass = (Double) jsonBall.get("mass");
 

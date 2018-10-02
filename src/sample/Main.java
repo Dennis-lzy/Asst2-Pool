@@ -7,6 +7,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Bounds;
+import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -19,6 +20,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import java.util.ArrayList;
 import javafx.scene.shape.Line;
+import javafx.util.Pair;
 
 public class Main extends Application {
 
@@ -36,7 +38,7 @@ public class Main extends Application {
         primaryStage.setTitle("Pool Game");
 
         ConfigReader cf = new ConfigReader();
-        cf.parse("config.json");
+        cf.parse("config2.json");
 
         Table table = cf.table;
         //border offset of table image
@@ -128,16 +130,19 @@ public class Main extends Application {
 
                     double dx; //Step on x or velocity
                     double dy; //Step on y
+
                     CollisionHandler ch = new CollisionHandler();
 
 
                     @Override
                     public void handle(ActionEvent t) {
 
+
                         for(Object ball: balls){
                             Ball b = (Ball)ball;
                             dx = b.getVelX();
                             dy = b.getVelY();
+
 
 
 
@@ -162,17 +167,22 @@ public class Main extends Application {
                             if(ch.checkWallCollisionY(b, table)){
                                 dy = -dy;
                             }
+
+
+
                             b.setPosX(b.getPosX() + dx);
                             b.setPosY(b.getPosY() + dy);
+
+
 
                             b.setVelX(dx);
                             b.setVelY(dy);
 
 
-
-
                         }
                     }}));
+
+
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
 

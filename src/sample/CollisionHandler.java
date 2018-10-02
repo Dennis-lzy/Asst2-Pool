@@ -13,9 +13,10 @@ import static java.lang.Math.sqrt;
 
 public class CollisionHandler {
 
-    ConfigReader cf = new ConfigReader();
+
 
     private double r = 10;
+
 
 
 
@@ -96,7 +97,7 @@ public class CollisionHandler {
          * @return A Pair<Point2D, Point2D> in which the first (key) Point2D is the new delta x,y vector for ball A, and the second
          *         (value) Point2D is the new delta x,y vector for ball B.
          */
-        public static Pair<Point2D, Point2D> calculateCollision(Ball ballA, Ball ballB) {
+        public  Pair<Point2D, Point2D> calculateCollision(Ball ballA, Ball ballB) {
             //Point2D positionA, Point2D velocityA, double massA, Point2D positionB, Point2D velocityB, double massB
             Point2D positionA = new Point2D(ballA.getPosX(), ballA.getPosY());
             Point2D velocityA = new Point2D(ballA.getVelX(), ballA.getVelY());
