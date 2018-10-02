@@ -14,11 +14,11 @@
         "name": "cueBall",
         "colour": "white",
         "position": {
-          "x": 200.0,
+          "x": 100.0,
           "y": 150.0
         },
         "velocity": {
-          "x": 1.0,
+          "x": 3.0,
           "y": 0.0
         },
         "mass": 1.0
@@ -27,11 +27,11 @@
         "name": "one",
         "colour": "red",
         "position": {
-          "x": 400.0,
+          "x": 500.0,
           "y": 150.0
         },
         "velocity": {
-          "x": 1.0,
+          "x": -3.0,
           "y": 0.0
         },
         "mass": 1.0

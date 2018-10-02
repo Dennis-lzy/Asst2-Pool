@@ -38,7 +38,7 @@ public class Main extends Application {
         primaryStage.setTitle("Pool Game");
 
         ConfigReader cf = new ConfigReader();
-        cf.parse("config2.json");
+        cf.parse("config.json");
 
         Table table = cf.table;
         //border offset of table image
@@ -179,7 +179,11 @@ public class Main extends Application {
                             b.setVelY(dy);
 
 
+
+
                         }
+
+                        ch.handleCollisions(balls);
                     }}));
 
 
