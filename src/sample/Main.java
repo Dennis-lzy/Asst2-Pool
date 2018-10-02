@@ -40,7 +40,7 @@ public class Main extends Application {
         primaryStage.setTitle("Pool Game");
 
         ConfigReader cf = new ConfigReader();
-        cf.parse("config.json");
+        cf.parse("config2.json");
 
         //creates table
         Table table = cf.table;
@@ -147,10 +147,10 @@ public class Main extends Application {
                             b.setPosY(b.getPosY() + dy);
 
                             //set threshold for velocity to fall to zero
-                            if(dx>-0.01&&dx < 0.01){
+                            if(dx>-0.05&&dx < 0.05){
                                 dx =0.0;
                             }
-                            if(dy>-0.01&&dy < 0.01){
+                            if(dy>-0.05&&dy < 0.05){
                                 dy=0.0;
                             }
 
