@@ -13,7 +13,11 @@ import static java.lang.Math.sqrt;
 
 public class CollisionHandler {
 
+    ConfigReader cf = new ConfigReader();
+
     private double r = 10;
+
+
 
 
     public boolean checkCollision(Ball ball1, Ball ball2) {
@@ -29,7 +33,14 @@ public class CollisionHandler {
     }
 
     public boolean checkWallCollisionX(Ball ball, Table table) {
-        if (abs(table.right - ball.getPosX()) <= r || abs(ball.getPosX() - table.left) <= r) {
+        double borderW = 0.056*table.getWidth();
+        double borderH = 0.105*table.getHeight();
+        double left = table.bounds.getMinX();// + borderW;
+        double right = table.bounds.getMaxX();// - borderW;
+        //System.out.println("Max X: " + right);
+        //System.out.println("Min X: " + left);
+        if (abs(right - ball.getPosX()) <= r || abs( ball.getPosX()-left) <= r) {
+
             return true;
         }
         else
@@ -37,7 +48,14 @@ public class CollisionHandler {
     }
 
     public boolean checkWallCollisionY(Ball ball, Table table) {
-        if (abs(table.bottom - ball.getPosY()) <= r || abs(ball.getPosY() - table.top) <= r) {
+        double borderW = 0.056*table.getWidth();
+        double borderH = 0.105*table.getHeight();
+        double top = table.bounds.getMinY();// + borderH;
+        double bot = table.bounds.getMaxY();// - borderH;
+        //System.out.println("Max X: " + bot);
+        //System.out.println("Min X: " + top);
+        if (abs(bot - ball.getPosY()) <= r || abs(ball.getPosY() - top) <= r) {
+
             return true;
         }
         else

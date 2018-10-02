@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="Asst2-Pool">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/out/production/Asst2-Pool/json-simple-1.1.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/out/production/Asst2-Pool/guava-18.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

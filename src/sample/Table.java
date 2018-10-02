@@ -1,9 +1,12 @@
 package sample;
 
+import javafx.geometry.Bounds;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+
+import java.util.ArrayList;
 
 
 public class Table extends Rectangle {
@@ -11,12 +14,7 @@ public class Table extends Rectangle {
     private double friction;
     private double width;
     private double height;
-    double borderW;
-    double borderH;
-    public double top;
-    public double right;
-    public double bottom;
-    public double left;
+    public Bounds bounds;
 
 
     public Table() {
@@ -24,13 +22,10 @@ public class Table extends Rectangle {
         this.friction = getFriction();
         this.height = getHeight();
         this.width = getWidth();
-        borderW = 0.056*this.getWidth();
-        borderH = 0.105*this.getHeight();
-        this.top = 100+borderH;
-        this.left = 100+borderW;
-        this.bottom = 100 + borderH + this.height;
-        this.right = 100 + borderW + this.width;
+        this.bounds = getBoundsInLocal();
+
     }
+
 
     public Color getColor() {
         return color;
@@ -46,7 +41,10 @@ public class Table extends Rectangle {
     }
 
     public void setFriction(double friction) {
-        this.friction = friction;
+        double d = 0.993;
+
+        this.friction = d;
+
     }
 
 

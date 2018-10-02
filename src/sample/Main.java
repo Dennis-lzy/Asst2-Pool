@@ -12,17 +12,16 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-
-
 import java.util.ArrayList;
+import javafx.scene.shape.Line;
 
 public class Main extends Application {
 
-
+    private Line currentLine;
+    private Ball CueBall;
 
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -61,8 +60,13 @@ public class Main extends Application {
 
         for(int i = 0; i<balls.size(); i++ ){
             Ball newBall = (Ball) balls.get(i);
+            if (newBall.getColor()== Color.WHITE){
+                CueBall = newBall;
+            }
             root.getChildren().add(newBall);
         }
+
+
 
 
 
@@ -74,28 +78,58 @@ public class Main extends Application {
 
                     double dx; //Step on x or velocity
                     double dy; //Step on y
+                    CollisionHandler ch = new CollisionHandler();
+
+
 
                     @Override
                     public void handle(ActionEvent t) {
+
+                        //---cue drag
+
+                        root.setOnMousePressed(e -> {
+                            currentLine = new Line(CueBall.getPosX(), CueBall.getPosY(), CueBall.getPosX(), CueBall.getPosY());
+                            root.getChildren().add(currentLine);
+                        });
+
+                        root.setOnMouseDragged(e -> {
+                            currentLine.setEndX(e.getX());
+                            currentLine.setEndY(e.getY());
+                        });
+
+                        //-----
                         for(Object ball: balls){
                             Ball b = (Ball)ball;
-                            double dx = b.getVelX();
-                            double dy = b.getVelY();
+                            dx = b.getVelX();
+                            dy = b.getVelY();
 
-                            CollisionHandler ch = new CollisionHandler();
+
+
+                            if(dx>0) {
+                                dx *= table.getFriction();
+                                System.out.println(dx);
+                            } else if (dx<0){
+                               dx *= table.getFriction();
+
+                            }
+                            if(dy>0){
+                                dy *=  table.getFriction();
+                            } else if (dy<0){
+                                dy *= table.getFriction();
+                            }
 
                             if(ch.checkWallCollisionX(b, table)){
-                                dx *= -1;
+                                dx = -dx;
                             }
 
                             if(ch.checkWallCollisionY(b, table)){
-                                dy*=-1;
+                                dy = -dy;
                             }
-
-                            dx -= 0.1*table.getFriction();
-                            dy -= 0.1*table.getFriction();
                             b.setPosX(b.getPosX() + dx);
                             b.setPosY(b.getPosY() + dy);
+
+                            b.setVelX(dx);
+                            b.setVelY(dy);
 
 
 

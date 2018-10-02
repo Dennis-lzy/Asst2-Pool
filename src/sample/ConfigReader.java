@@ -46,6 +46,13 @@ public class ConfigReader {
             table.setWidth(tableX);
             table.setHeight(tableY);
             table.setFriction(tableFriction);
+            double borderW = 0.056*table.getWidth();
+            double borderH = 0.105*table.getHeight();
+            table.setX(borderW);
+            table.setY(borderH);
+            table.bounds = table.getBoundsInLocal();
+
+
 
 
             //---------------------------------------
@@ -79,18 +86,18 @@ public class ConfigReader {
 
                 ball.setColor(ballColour);
 
-                if(posX>table.left){
-                    posX = table.left - 11;
-                }
-                if(posX<table.right){
-                    posX = table.right+11;
-                }
-                if(posY>table.bottom){
-                    posY = table.bottom-11;
-                }
-                if(posY<table.top){
-                    posY = table.top+11;
-                }
+//                if(posX>table.bounds.getMaxX()){
+//                    posX = table.bounds.getMaxX();
+//                }
+//                if(posX<table.bounds.getMinX()){
+//                    posX = table.bounds.getMinX();
+//                }
+//                if(posY>table.bounds.getMaxY()){
+//                    posY = table.bounds.getMaxY();
+//                }
+//                if(posY<table.bounds.getMinY()){
+//                    posY = table.bounds.getMinY();
+//                }
                 ball.setPosX(posX);
                 ball.setPosY(posY);
                 ball.setVelX(velX);
