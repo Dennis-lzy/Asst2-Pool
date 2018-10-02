@@ -1,6 +1,7 @@
 package sample;
 
 import javafx.geometry.Point2D;
+import javafx.scene.shape.Circle;
 import javafx.util.Pair;
 
 import java.util.ArrayList;
@@ -12,10 +13,9 @@ import static java.lang.Math.sqrt;
 
 public class CollisionHandler {
 
-
-
     private double radius = 10;
 
+    //handles collisions modified from provided collision code
 
     public void handleCollisions(ArrayList<Ball> balls){
         double xDist, yDist;
@@ -78,18 +78,6 @@ public class CollisionHandler {
         }
 
 
-
-    public boolean checkCollision(Ball ball1, Ball ball2) {
-        double X1 = ball1.getCenterX();
-        double Y1 = ball1.getCenterY();
-        double X2 = ball2.getCenterX();
-        double Y2 = ball2.getCenterY();
-        if (sqrt(pow(abs(X1-X2),2)+pow(abs(Y1-Y2),2)) <= (2* radius)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
 
 
     //checks collision with left and right of table

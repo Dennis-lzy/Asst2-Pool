@@ -42,6 +42,7 @@ public class ConfigReader {
             // This is a double which should affect the rate at which the balls slow down
             Double tableFriction = (Double) jsonTable.get("friction");
 
+            //Creates Table from File
             table.setColor(tableColour);
             table.setWidth(tableX);
             table.setHeight(tableY);
@@ -83,6 +84,8 @@ public class ConfigReader {
                 Double velY = (Double) ((JSONObject) jsonBall.get("velocity")).get("y");
 
                 Double mass = (Double) jsonBall.get("mass");
+
+                //Creates balls from file
 
                 Ball ball = new Ball(posX, posY, 10, ballColour);
 

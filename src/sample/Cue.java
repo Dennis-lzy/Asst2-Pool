@@ -1,5 +1,6 @@
 package sample;
 
+import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
 import javafx.scene.shape.Line;
 
@@ -25,14 +26,13 @@ public class Cue extends Line {
     }
 
 
-    void increasePower() {
-        if(this.power < MAXPOWER) this.power += 25;
-        System.out.println("Power: " + this.power);
-    }
-
-    void decreasePower() {
-        if(this.power > 0) this.power -= 25;
-        System.out.println("Power: " + this.power);
+    public void setPower(Line line){
+        Point2D start = new Point2D(line.getStartX(), line.getStartY());
+        Point2D end = new Point2D(line.getEndX(), line.getEndY());
+        power = start.distance(end)*3;
+        if(power>900){
+            power=900;
+        }
     }
 
     double getCueTheta() {
@@ -62,29 +62,18 @@ public class Cue extends Line {
         this.setEndY(cb.getCenterY());
     }
 
-    void shoot(Ball ball1) {
+    void shoot(Ball A, Line B) {
+        double x1 = A.getPosX();
+        double x2 = B.getEndX();
+        double y1 = A.getPosY();
+        double y2 = B.getEndY();
 
-        Point2D transformedEnd = this.localToScene(this.getStartX(), this.getStartY());
+        double velX = -(x2-x1)/70;
+        double velY = -(y2-y1)/70;
 
-        double diffX = (ball1.getCenterX() - transformedEnd.getX());
-        double diffY = (ball1.getCenterY() - transformedEnd.getY());
+        A.setVelX(velX);
+        A.setVelY(velY);
 
-        System.out.println("diffX " + diffX + " diffY " + diffY);
-
-        if(abs(diffX) < .001) diffX = 0;
-        if(abs(diffY) < .001) diffY = 0;
-
-        double nMag = sqrt(pow(diffX,2) + pow(diffY,2));
-
-        double nX = diffX/nMag;
-        double nY = diffY/nMag;
-        System.out.println("nX " + nX + " nY " + nY);
-
-        if(abs(diffX) < .001) nX = 0;
-        if(abs(diffY) < .001) nY = 0;
-
-        ball1.setVelX(power*nX);
-        ball1.setVelY(power*nY);
 
     }
 

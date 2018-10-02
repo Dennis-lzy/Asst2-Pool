@@ -15,10 +15,9 @@ public class Ball extends Circle {
     private double posY;
     private double velX;
     private double velY;
-    double vTheta = 0;
     private double mass;
 
-    public static double motion;
+
 
     public Ball(double centerX, double centerY, double radius, Color colour) {
         super(centerX, centerY, radius);
@@ -79,9 +78,6 @@ public class Ball extends Circle {
         return tv;
     }
 
-    public double getVtheta() {
-        return Math.atan2(this.velX,this.velY);
-    }
 
     public double getMass() {
         return mass;
@@ -91,12 +87,5 @@ public class Ball extends Circle {
         this.mass = mass;
     }
 
-    static boolean checkMotion(ArrayList<Ball> l) {
-        motion = 0;
-        for(Ball item : l) {
-            motion += item.getTV();
-        }
-        if(motion == 0) return true;
-        else return false;
-    }
+
 }

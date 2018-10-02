@@ -1,19 +1,18 @@
 package sample;
 
-
-import javafx.geometry.Point2D;
 import javafx.scene.shape.Circle;
 
 import java.util.ArrayList;
 
-public class Pockets extends ArrayList<Circle> {
+public class Pocket {
 
     private double r = 10;
 
-    public ArrayList<Circle> pockets;
+    public ArrayList<Circle> pockets = new ArrayList<Circle>();
 
+    //creates pockets when called
 
-    public void setPockets(Table table) {
+    public Pocket(Table table) {
         double tWidth = table.bounds.getWidth();
         double tHeight = table.bounds.getHeight();
         double top = table.bounds.getMinY();
@@ -37,7 +36,24 @@ public class Pockets extends ArrayList<Circle> {
 
     }
 
-    public ArrayList<Circle> getPockets() {
-        return pockets;
+    //uses ball collision detection to check if ball intersects the pockets
+
+    public boolean checkIfPocketed(Ball ball){
+        boolean isSunk = false;
+        double xDist, yDist;
+        for(int i = 0; i < pockets.size(); i++){
+                Circle pocket = pockets.get(i);
+                xDist = pocket.getCenterX() - ball.getCenterX();
+                yDist = pocket.getCenterY() - ball.getCenterY();
+                double distSquared = xDist*xDist + yDist*yDist;
+                //checks for intersection of balls
+                if(distSquared <= ((2*r)*(2*r))/2){
+                    isSunk = true;
+                }
+            }
+        return isSunk;
     }
+
+
+
 }

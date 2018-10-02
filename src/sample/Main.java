@@ -3,43 +3,46 @@ package sample;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.fxml.FXMLLoader;
-import javafx.geometry.Bounds;
-import javafx.geometry.Point2D;
 import javafx.scene.Group;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseDragEvent;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import java.util.ArrayList;
+import java.util.List;
+
 import javafx.scene.shape.Line;
-import javafx.util.Pair;
 
 public class Main extends Application {
 
-
+    private Cue cue;
     private Ball CueBall;
+    private DoubleProperty mouseX = new SimpleDoubleProperty();
+    private DoubleProperty mouseY = new SimpleDoubleProperty();
 
-
-
+    private List<Circle> nodes;
+    private Line currentLine = null;
+    private boolean dragActive = false;
+    Group root = new Group();
+    boolean checkMovement = false;
 
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Group root = new Group();
 
         primaryStage.setTitle("Pool Game");
 
         ConfigReader cf = new ConfigReader();
         cf.parse("config.json");
 
+        //creates table
         Table table = cf.table;
         //border offset of table image
         double borderW = 0.056*table.getWidth();
@@ -74,79 +77,38 @@ public class Main extends Application {
             root.getChildren().add(newBall);
         }
 
-
-        //---cue drag
-        final Line[] l = new Line[1];
-
-
-        root.setOnMousePressed(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                l[0] = new Line(CueBall.getPosX(), CueBall.getPosY(), CueBall.getPosX(), CueBall.getPosY());
-                root.getChildren().add(l[0]);
-            }
-
-        });
-
-        root.setOnDragDetected(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                l[0].startFullDrag();
-            }
-        });
-
-        root.setOnMouseDragged(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                l[0].setEndX(event.getX());
-                l[0].setEndY(event.getY());
-
-            }
-
-        });
-
-        root.setOnMouseDragReleased(new EventHandler<MouseDragEvent>() {
-            @Override
-            public void handle(MouseDragEvent event) {
-                l[0] = null;
-                root.getChildren().removeAll(l);
-                System.out.println("test");
-            }
-
-        });
-
-
-
-
-
-        //-----
-
+        //declares cue that lets you drag and release to shoot;
+        cue = new Cue(CueBall);
 
         primaryStage.setResizable(false);
         primaryStage.setScene(new Scene(root, w, h));
 
+        //Game loop
+
         Timeline timeline = new Timeline(new KeyFrame(Duration.millis(10),
                 new EventHandler<ActionEvent>() {
+                    //velocity
+                    double dx;
+                    double dy;
 
-                    double dx; //Step on x or velocity
-                    double dy; //Step on y
-
+                    //instantiates collision handler
                     CollisionHandler ch = new CollisionHandler();
+
+                    //instantiates pockets
+                    Pocket p = new Pocket(table);
+
 
 
                     @Override
                     public void handle(ActionEvent t) {
 
-
+                        //balls arraylist iterator;
                         for(Object ball: balls){
                             Ball b = (Ball)ball;
                             dx = b.getVelX();
                             dy = b.getVelY();
 
-
-
-
-
+                            //implements deceleration with friction
                             if(dx>0) {
                                 dx *= table.getFriction();
                                 //System.out.println(dx);
@@ -160,30 +122,58 @@ public class Main extends Application {
                                 dy *= table.getFriction();
                             }
 
+                            //checks to make sure cue ball is not sunk
+                            if(p.checkIfPocketed(b) && b!=CueBall){
+                                root.getChildren().remove(ball);
+                                continue;
+                            }
+
+                            //repositions cue ball if sunk
+                            if(p.checkIfPocketed(b) && b == CueBall){
+                                b.setPosX(200);
+                                b.setVelY(150);
+                            }
+
+                            //handles wall collisions
                             if(ch.checkWallCollisionX(b, table)){
                                 dx = -dx;
                             }
-
                             if(ch.checkWallCollisionY(b, table)){
                                 dy = -dy;
                             }
 
-
-
+                            //updates postions
                             b.setPosX(b.getPosX() + dx);
                             b.setPosY(b.getPosY() + dy);
 
+                            //set threshold for velocity to fall to zero
+                            if(dx>-0.01&&dx < 0.01){
+                                dx =0.0;
+                            }
+                            if(dy>-0.01&&dy < 0.01){
+                                dy=0.0;
+                            }
 
-
+                            //updates velocity
                             b.setVelX(dx);
                             b.setVelY(dy);
+                            System.out.println(b.getTV());
 
+                            //checks to makes sure balls have stopped moving
+                            if(b.getTV()==0){
+                                checkMovement = true;
+                            } else {
+                                checkMovement =false;
+                            }
+                            }
 
-
-
-                        }
-
+                        //handles all ball collisions
                         ch.handleCollisions(balls);
+
+                        if(checkMovement){
+                            attachHandlers(root);
+                            System.out.println("motion still");
+                        }
                     }}));
 
 
@@ -191,9 +181,68 @@ public class Main extends Application {
         timeline.play();
 
 
+
+
         primaryStage.show();
 
 
+    }
+
+    //Implements click and drag to shoot cue ball
+
+    private void startDrag(Ball node) {
+        if (dragActive)
+            return;
+
+        dragActive = true;
+        currentLine = new Line();
+        currentLine.setUserData(node);
+        currentLine.setStartX(node.getCenterX());
+        currentLine.setStartY(node.getCenterY());
+        currentLine.endXProperty().bind(mouseX);
+        currentLine.endYProperty().bind(mouseY);
+
+        root.getChildren().add(currentLine);
+    }
+
+    private void stopDrag(Circle node) {
+        dragActive = false;
+
+        stopDrag();
+
+    }
+
+    private void stopDrag() {
+        dragActive = false;
+        cue.setPower(currentLine);
+        cue.shoot(CueBall,currentLine);
+        System.out.println(cue.power);
+
+        currentLine.endXProperty().unbind();
+        currentLine.endYProperty().unbind();
+        root.getChildren().remove(currentLine);
+
+        currentLine = null;
+    }
+
+    private void attachHandlers(Group group) {
+        group.setOnMouseMoved(e -> {
+            mouseX.set(e.getSceneX());
+            mouseY.set(e.getSceneY());
+        });
+
+        group.setOnMouseDragged(e -> {
+            mouseX.set(e.getSceneX());
+            mouseY.set(e.getSceneY());
+        });
+
+        group.setOnMousePressed(e -> {
+            startDrag(CueBall);
+        });
+
+        group.setOnMouseReleased(e -> {
+                stopDrag();
+        });
     }
 
 

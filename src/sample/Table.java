@@ -41,7 +41,14 @@ public class Table extends Rectangle {
         return friction;
     }
 
+    //sets friction
+
     public void setFriction(double friction) {
+        double offset;
+        if (friction <1){
+            offset = 1-(friction/100-0.003) ;
+        }
+
         double d = 0.993;
 
         this.friction = d;
