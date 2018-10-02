@@ -12,6 +12,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseDragEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -20,8 +22,12 @@ import javafx.scene.shape.Line;
 
 public class Main extends Application {
 
-    private Line currentLine;
+
     private Ball CueBall;
+
+
+
+
 
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -67,7 +73,51 @@ public class Main extends Application {
         }
 
 
+        //---cue drag
+        final Line[] l = new Line[1];
 
+
+        root.setOnMousePressed(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                l[0] = new Line(CueBall.getPosX(), CueBall.getPosY(), CueBall.getPosX(), CueBall.getPosY());
+                root.getChildren().add(l[0]);
+            }
+
+        });
+
+        root.setOnDragDetected(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                l[0].startFullDrag();
+            }
+        });
+
+        root.setOnMouseDragged(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                l[0].setEndX(event.getX());
+                l[0].setEndY(event.getY());
+
+            }
+
+        });
+
+        root.setOnMouseDragReleased(new EventHandler<MouseDragEvent>() {
+            @Override
+            public void handle(MouseDragEvent event) {
+                l[0] = null;
+                root.getChildren().removeAll(l);
+                System.out.println("test");
+            }
+
+        });
+
+
+
+
+
+        //-----
 
 
         primaryStage.setResizable(false);
@@ -81,23 +131,9 @@ public class Main extends Application {
                     CollisionHandler ch = new CollisionHandler();
 
 
-
                     @Override
                     public void handle(ActionEvent t) {
 
-                        //---cue drag
-
-                        root.setOnMousePressed(e -> {
-                            currentLine = new Line(CueBall.getPosX(), CueBall.getPosY(), CueBall.getPosX(), CueBall.getPosY());
-                            root.getChildren().add(currentLine);
-                        });
-
-                        root.setOnMouseDragged(e -> {
-                            currentLine.setEndX(e.getX());
-                            currentLine.setEndY(e.getY());
-                        });
-
-                        //-----
                         for(Object ball: balls){
                             Ball b = (Ball)ball;
                             dx = b.getVelX();
@@ -105,9 +141,10 @@ public class Main extends Application {
 
 
 
+
                             if(dx>0) {
                                 dx *= table.getFriction();
-                                System.out.println(dx);
+                                //System.out.println(dx);
                             } else if (dx<0){
                                dx *= table.getFriction();
 
@@ -144,6 +181,7 @@ public class Main extends Application {
 
 
     }
+
 
 
     public static void main(String[] args) {
