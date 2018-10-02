@@ -43,8 +43,10 @@ public class Cue extends Line {
         double velX = -(x2-x1)/40;
         double velY = -(y2-y1)/40;
 
-        A.setVelX(velX);
-        A.setVelY(velY);
+        if(A.getVelX() ==0 && A.getVelY()==0) {
+            A.setVelX(velX);
+            A.setVelY(velY);
+        }
 
 
     }

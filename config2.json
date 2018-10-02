@@ -18,7 +18,33 @@
           "y": 150.0
         },
         "velocity": {
-          "x": 3.0,
+          "x": 0.0,
+          "y": 0.0
+        },
+        "mass": 1.0
+      },
+      {
+        "name": "one",
+      "colour": "red",
+      "position": {
+        "x": 500.0,
+        "y": 150.0
+      },
+      "velocity": {
+        "x": 0.0,
+        "y": 0.0
+      },
+      "mass": 1.0
+      },
+      {
+        "name": "one",
+        "colour": "red",
+        "position": {
+          "x": 350.0,
+          "y": 190.0
+        },
+        "velocity": {
+          "x": 0.0,
           "y": 0.0
         },
         "mass": 1.0
@@ -27,11 +53,11 @@
         "name": "one",
         "colour": "red",
         "position": {
-          "x": 500.0,
-          "y": 150.0
+          "x": 190.0,
+          "y": 210.0
         },
         "velocity": {
-          "x": -3.0,
+          "x": 0.0,
           "y": 0.0
         },
         "mass": 1.0

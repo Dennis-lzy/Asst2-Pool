@@ -131,7 +131,9 @@ public class Main extends Application {
                             //repositions cue ball if sunk
                             if(p.checkIfPocketed(b) && b == CueBall){
                                 b.setPosX(200);
-                                b.setVelY(150);
+                                b.setPosY(150);
+                                b.setVelY(0);
+                                b.setVelY(0);
                             }
 
                             //handles wall collisions
@@ -165,15 +167,16 @@ public class Main extends Application {
                             } else {
                                 checkMovement =false;
                             }
+                            if(checkMovement){
+                                attachHandlers(root);
+                                System.out.println("motion still");
+                            }
                             }
 
                         //handles all ball collisions
                         ch.handleCollisions(balls);
 
-                        if(checkMovement){
-                            attachHandlers(root);
-                            System.out.println("motion still");
-                        }
+
                     }}));
 
 
@@ -241,7 +244,7 @@ public class Main extends Application {
         });
 
         group.setOnMouseReleased(e -> {
-                stopDrag();
+            stopDrag();
         });
     }
 
