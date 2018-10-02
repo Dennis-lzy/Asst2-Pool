@@ -45,6 +45,8 @@ public class ConfigReader {
             table.setColor(tableColour);
             table.setWidth(tableX);
             table.setHeight(tableY);
+            table.setArcWidth(50);
+            table.setArcHeight(50);
             table.setFriction(tableFriction);
             double borderW = 0.056*table.getWidth();
             double borderH = 0.105*table.getHeight();

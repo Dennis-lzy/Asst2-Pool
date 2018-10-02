@@ -24,6 +24,7 @@ public class Table extends Rectangle {
         this.width = getWidth();
         this.bounds = getBoundsInLocal();
 
+
     }
 
 

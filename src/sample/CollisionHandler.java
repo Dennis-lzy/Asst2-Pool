@@ -26,7 +26,7 @@ public class CollisionHandler {
                 xDist = A.getCenterX() - B.getCenterX();
                 yDist = A.getCenterY() - B.getCenterY();
                 double distSquared = xDist*xDist + yDist*yDist;
-                //Check the squared distances instead of the the distances, same result, but avoids a square root.
+                //checks for intersection of balls
                 if(distSquared <= (2*radius)*(2*radius)){
                     Point2D positionA = new Point2D(A.getPosX(), A.getPosY());
                     Point2D velocityA = new Point2D(A.getVelX(), A.getVelY());
@@ -91,9 +91,9 @@ public class CollisionHandler {
         }
     }
 
+
+    //checks collision with left and right of table
     public boolean checkWallCollisionX(Ball ball, Table table) {
-        double borderW = 0.056*table.getWidth();
-        double borderH = 0.105*table.getHeight();
         double left = table.bounds.getMinX();// + borderW;
         double right = table.bounds.getMaxX();// - borderW;
         //System.out.println("Max X: " + right);
@@ -106,11 +106,10 @@ public class CollisionHandler {
             return false;
     }
 
+    //checks collision with top and bottom of table
     public boolean checkWallCollisionY(Ball ball, Table table) {
-        double borderW = 0.056*table.getWidth();
-        double borderH = 0.105*table.getHeight();
-        double top = table.bounds.getMinY();// + borderH;
-        double bot = table.bounds.getMaxY();// - borderH;
+        double top = table.bounds.getMinY();
+        double bot = table.bounds.getMaxY();
         //System.out.println("Max X: " + bot);
         //System.out.println("Min X: " + top);
         if (abs(bot - ball.getPosY()) <= radius || abs(ball.getPosY() - top) <= radius) {
